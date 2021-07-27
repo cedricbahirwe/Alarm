@@ -26,16 +26,16 @@ struct Lap: Identifiable {
 struct StopWatchView: View {
     @State private var laps: [Lap] = []
 
-    @StateObject private var timerData = StopTimerManger()
+    @StateObject private var watchData = StopWatchManager()
     
     var body: some View {
         VStack {
             VStack {
-                Text(timerData.mainTimerText)
+                Text(watchData.mainTimerText)
                     .font(.uiFont(name: .noteworthy, size: 40))
                     .bold()
                 
-                Text(timerData.lapTimerText)
+                Text(watchData.lapTimerText)
                     .font(.uiFont(name: .noteworthy, size: 20))
                     .bold()
                     .foregroundColor(Color(.darkGray))
@@ -65,10 +65,10 @@ struct StopWatchView: View {
             .opacity(laps.isEmpty ? 0 : 1)
             
             HStack(spacing: 60) {
-                let state = timerData.timerState
+                let state = watchData.timerState
                 Button(action: {
                     withAnimation(.linear) {
-                        timerData.startStopTimer()
+                        watchData.startStopTimer()
                     }
                 }, label: {
                     Text(state == .running  ? "Pause" : state == .paused ? "Resume" : "Start")
@@ -93,12 +93,12 @@ struct StopWatchView: View {
                     Button(action: {
                         withAnimation(.linear) {
                             if state == .paused {
-                                timerData.resetCounter()
+                                watchData.resetCounter()
                             } else {
-                                timerData.lapCounter = 0
+                                watchData.lapCounter = 0
                                 let lap = Lap(count: laps.count+1,
-                                              time: timerData.lapTimerText,
-                                              overallTime: timerData.mainTimerText)
+                                              time: watchData.lapTimerText,
+                                              overallTime: watchData.mainTimerText)
                                 
                                 laps.insert(lap, at: 0)
                                 
