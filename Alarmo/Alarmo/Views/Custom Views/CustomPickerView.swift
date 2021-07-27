@@ -90,9 +90,6 @@ struct CustomPickerView: UIViewRepresentable {
             } else if component == 2 {
                 parent.sec = parent.secondes[row]
             }
-            
-            print(parent.hr, parent.min, parent.sec)
         }
-        
     }
 }
