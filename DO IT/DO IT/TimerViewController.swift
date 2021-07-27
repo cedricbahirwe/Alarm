@@ -128,8 +128,8 @@ extension TimerViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        pickerView.subviews[1].backgroundColor = .clear
-        pickerView.subviews[2].backgroundColor = .clear
+//        pickerView.subviews[1].backgroundColor = .clear
+//        pickerView.subviews[2].backgroundColor = .clear
         let label = UILabel()
         label.frame.origin = CGPoint(x: 0, y: 0)
         label.frame.size = CGSize(width: self.pickerView.frame.width / 3, height: 90)

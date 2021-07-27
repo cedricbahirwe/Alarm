@@ -56,28 +56,13 @@ struct StopWatchView: View {
                 }
                 .font(.system(size: 16))
                 .foregroundColor(.gray)
+                .frame(height: 30)
                 
                 Divider()
-                ScrollView {
-                    VStack {
-                        ForEach(laps) { lap in
-                            HStack {
-                                Text(String(format: "%02d", lap.count))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(lap.time)
-                                    .frame(maxWidth: .infinity)
-                                Text(lap.overallTime)
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                            }
-                            .foregroundColor(Color.secondary)
-                            .frame(height: 40)
-                        }
-                    }
-                }
+                lapsView
             }
             .padding(20)
             .opacity(laps.isEmpty ? 0 : 1)
-            
             
             HStack(spacing: 60) {
                 let state = timerData.timerState
@@ -89,7 +74,7 @@ struct StopWatchView: View {
                     Text(state == .running  ? "Pause" : state == .paused ? "Resume" : "Start")
                         .font(.uiFont(name: .noteworthy, size: 20))
                         .bold()
-                        .foregroundColor(Color(.systemBackground))
+                        .foregroundColor(.white)
                         .frame(width: 120, height: 45)
                         .background(
                             Group {
@@ -123,7 +108,7 @@ struct StopWatchView: View {
                         Text(state == .paused ? "Reset" : "Lap")
                             .font(.uiFont(name: .noteworthy, size: 20))
                             .bold()
-                            .foregroundColor(Color(.systemBackground))
+                            .foregroundColor(.white)
                             .frame(width: 120, height: 45)
                             .background(Color(.darkGray))
                             .clipShape(Capsule())
@@ -144,6 +129,26 @@ struct StopWatchView: View {
             , alignment: .topTrailing
         )
         
+    }
+    
+    private var lapsView: some View {
+        ScrollView {
+            VStack {
+                ForEach(laps) { lap in
+                    HStack {
+                        Text(String(format: "%02d", lap.count))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Text(lap.time)
+                            .frame(maxWidth: .infinity)
+                        Text(lap.overallTime)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                    .foregroundColor(Color.secondary)
+                    .frame(height: 40)
+                }
+            }
+            .padding(.trailing, 8)
+        }
     }
 }
 
