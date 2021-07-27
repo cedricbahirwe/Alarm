@@ -16,11 +16,6 @@ struct Reminder: Identifiable, Hashable {
 }
 struct ReminderView: View {
     @State private var reminders = Reminder.examples
-//    @State var editMode = EditMode.inactive
-//    @State var selection = Set<Reminder>()
-
-    
-//    @State var numbers = ["One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"]
         @State var editMode = EditMode.inactive
         @State var selection = Set<Reminder>()
     var body: some View {
@@ -36,24 +31,16 @@ struct ReminderView: View {
                     }
                     .frame(height: 60)
                 }
-//                .onDelete(perform: removeItems)
             }
             .listStyle(PlainListStyle())
-            .navigationBarItems(leading: deleteButton, trailing: editButton)
-
-            .toolbar(content: {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    EditButton()
-                    Button(action: {}, label: {
-                        Label("Add", systemImage: "plus")
-                    })
-                    Button(action: {}, label: {
-                        Label("Delete", systemImage: "trash")
-                    })
-
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    deleteButton
                 }
-            })
-
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    editButton
+                }
+            }
             .navigationTitle("Reminders")
             .environment(\.editMode, $editMode)
         }
@@ -64,37 +51,20 @@ struct ReminderView: View {
     }
 
     private var editButton: some View {
-        if editMode == .inactive {
-            return Button(action: {
-                withAnimation {
-                    editMode = .active
-                    selection = Set<Reminder>()
-                }
-            }) {
-                Text("Edit")
+        Button(action: {
+            withAnimation {
+                editMode = editMode == .active ? .inactive : .active
+                selection = Set<Reminder>()
             }
-        }
-        else {
-            return Button(action: {
-                withAnimation {
-                    editMode = .inactive
-                    selection = Set<Reminder>()
-                }
-            }) {
-                Text("Done")
-            }
+        }) {
+            Text(editMode == .inactive ? "Edit" : "Done")
         }
     }
 
     private var deleteButton: some View {
-        if editMode == .inactive {
-            return Button(action: {}) {
-                Image(systemName: "")
-            }
-        } else {
-            return Button(action: deleteNumbers) {
-                Image(systemName: "trash")
-            }
+        Button(action: deleteNumbers) {
+            Image(uiImage: editMode == .active ? UIImage(systemName: "trash")! : UIImage.init())
+                
         }
     }
 
