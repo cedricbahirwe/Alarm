@@ -45,7 +45,6 @@ struct CustomPickerView: UIViewRepresentable {
     
     class Coordinator: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
         
-        
         var parent: CustomPickerView
         let datas: [[Int]]
         init(_ parent: CustomPickerView) {
@@ -62,9 +61,9 @@ struct CustomPickerView: UIViewRepresentable {
         
         func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
             let label = UILabel()
-            label.frame.origin = CGPoint(x: 0, y: 0)
+            label.frame.origin = CGPoint(x: -04, y: 0)
             // self.pickerView.frame.width / 3
-            //            label.frame.size = CGSize(width: 120 , height: 90)
+            label.frame.size = CGSize(width: 110 , height: 90)
             label.font = .systemFont(ofSize: 40, weight: .semibold)
             label.textColor = .label
             label.textAlignment = component == 0 ?  .left : component == 1 ? .center : .right
@@ -91,6 +90,8 @@ struct CustomPickerView: UIViewRepresentable {
             } else if component == 2 {
                 parent.sec = parent.secondes[row]
             }
+            
+            print(parent.hr, parent.min, parent.sec)
         }
         
     }

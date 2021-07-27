@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @AppStorage("selectedTab")
-    private var selectedTab: Int = 2
+    private var selectedTab: Int = 1
     var body: some View {
         TabView(selection: $selectedTab) {
             RemindersView()

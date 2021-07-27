@@ -7,15 +7,11 @@
 
 import SwiftUI
 
-
-
-let timer = Timer
-    .publish(every: 1, on: .main, in: .common)
-    .autoconnect()
-
 struct TimerView: View {
     
     @StateObject private var timerData = TimerManager()
+    @State private var finishedCountDown = false
+    @State private var counter = 0
     var body: some View {
         VStack {
             Group {
@@ -23,36 +19,40 @@ struct TimerView: View {
                     CustomPickerView(hr: $timerData.hr,
                                      min: $timerData.min,
                                      sec: $timerData.sec)
-                        .frame(height: 200)
+                        .frame(height: 230)
                         .overlay(colonView)
                         .overlay(pickerHeaderView, alignment: .top)
                 } else {
-                    CountdownView(countTo: timerData.duration)
+                    CountdownView
                         .frame(width: 270, height: 270)
                 }
             }
             .padding(.top, 100)
-            
             Spacer()
             HStack(spacing: 60) {
-                Button(action: {
-                    timerData.timerState = .running
-                }, label: {
-                    Text( "Start")
-                        .font(.uiFont(name: .noteworthy, size: 20))
-                        .bold()
-                        .foregroundColor(.white)
-                        .frame(width: 120, height: 45)
-                        .background(Color.blue)
-                        .clipShape(Capsule())
-                })
-                .opacity(timerData.canStartTimer ? 1 : 0.5)
-                .disabled(timerData.canStartTimer == false)
+                let state = timerData.timerState
+                
+                if !(finishedCountDown && state == .running) {
+                    Button(action: {
+                        timerData.manageTimer()
+                    }, label: {
+                        Text(state == .running  ? "Pause" : state == .paused ? "Resume" : "Start")
+                            .font(.uiFont(name: .noteworthy, size: 20))
+                            .bold()
+                            .foregroundColor(.white)
+                            .frame(width: 120, height: 45)
+                            .background(timerData.timerState == .initial ? Color.blue : .red)
+                            .clipShape(Capsule())
+                    })
+                    .opacity(timerData.canStartTimer ? 1 : 0.5)
+                    .disabled(timerData.canStartTimer == false)
+                }
                 
                 Button(action: {
-                    timerData.timerState = .initial
+                    counter = 0
+                    timerData.resetTimer()
                 }, label: {
-                    Text("Cancel")
+                    Text(finishedCountDown ? "Reset" : "Cancel")
                         .font(.uiFont(name: .noteworthy, size: 20))
                         .bold()
                         .foregroundColor(.white)
@@ -103,76 +103,74 @@ struct TimerView_Previews: PreviewProvider {
 }
 
 extension TimerView {
-    
-    struct ProgressBar: View {
-        var counter: Int
-        var countTo: Int
-        
-        var body: some View {
-            Circle()
-                .fill(Color.clear)
-                .overlay(
-                    Circle().trim(from:0, to: progress())
-                        .stroke(
-                            style: StrokeStyle(
-                                lineWidth: 15,
-                                lineCap: .round,
-                                lineJoin:.round
-                            )
-                        )
-                        .foregroundColor(
-                            (completed() ? Color.lightGreen : Color.orange)
-                        )
-                        .animation(
-                            .easeInOut(duration: 0.2)
-                        )
-                )
-        }
-        
-        func completed() -> Bool {
-            progress() == 1
-        }
-        
-        func progress() -> CGFloat {
-            (CGFloat(counter) / CGFloat(countTo))
-        }
-    }
-    
-    struct CountdownView: View {
-        @State var counter: Int = 0
-        var countTo: Int = 120
-        
-        var body: some View {
-            VStack{
-                ZStack{
-                    Circle()
-                        .fill(Color.clear)
-                        .overlay(
-                            Circle().stroke(Color.primary.opacity(0.2),
-                                            lineWidth: 15)
-                        )
-                    ProgressBar(counter: counter, countTo: countTo)
-                    VStack {
-                        Text(counterToSeconds())
-                            .font(.custom("Avenir Next", size: 60))
-                            .fontWeight(.black)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.5)
-                    }
-                    .padding(15) // For the border width
+    private var CountdownView: some View {
+        VStack{
+            ZStack{
+                Circle()
+                    .fill(Color.clear)
+                    .overlay(
+                        Circle().stroke(Color.primary.opacity(0.2),
+                                        lineWidth: 15)
+                    )
+                ProgressBarView(isFinished: $finishedCountDown,
+                                counter: counter,
+                                countTo: timerData.duration)
+                VStack {
+                    Text(counterToSeconds())
+                        .font(.custom("Avenir Next", size: 60))
+                        .fontWeight(.black)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                 }
-            }.onReceive(timer) { time in
-                if (self.counter < self.countTo) {
-                    self.counter += 1
-                }
+                .padding(15) // For the border width
             }
         }
-        
-        func counterToSeconds() -> String {
-            let currentTime = countTo - counter
-            return getReadableTimeFormat(amount: currentTime, type: "i")
+        .onReceive(timerData.timer) { _ in
+            if (counter < timerData.duration) {
+                counter += 1
+            }
         }
     }
     
+    func counterToSeconds() -> String {
+        let currentTime = timerData.duration - counter
+        return getReadableTimeFormat(amount: currentTime, type: "i")
+    }
+}
+
+struct ProgressBarView: View {
+    @Binding var isFinished: Bool
+    var counter: Int
+    var countTo: Int
+    
+    var body: some View {
+        Circle()
+            .fill(Color.clear)
+            .overlay(
+                Circle().trim(from:0, to: progress())
+                    .stroke(
+                        style: StrokeStyle(
+                            lineWidth: 15,
+                            lineCap: .round,
+                            lineJoin:.round
+                        )
+                    )
+                    .foregroundColor(
+                        (completed() ? Color.lightGreen : Color.orange)
+                    )
+                    .animation(
+                        .easeInOut(duration: 0.2)
+                    )
+            )
+    }
+    
+    func completed() -> Bool {
+        isFinished = progress() == 1
+        return isFinished
+    }
+    
+    func progress() -> CGFloat {
+        (CGFloat(counter) / CGFloat(countTo))
+    }
 }
 
