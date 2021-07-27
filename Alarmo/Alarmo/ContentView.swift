@@ -13,7 +13,7 @@ struct ContentView: View {
     private var selectedTab: Int = 2
     var body: some View {
         TabView(selection: $selectedTab) {
-            ReminderView()
+            RemindersView()
                 .tabItem {
                     Label("Reminds", systemImage: "calendar")
                 }.tag(1)
