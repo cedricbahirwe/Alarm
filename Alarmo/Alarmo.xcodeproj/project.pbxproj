@@ -12,10 +12,11 @@
 		824C901126B009020015C76E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 824C901026B009020015C76E /* Assets.xcassets */; };
 		824C901426B009020015C76E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 824C901326B009020015C76E /* Preview Assets.xcassets */; };
 		824C901F26B009A00015C76E /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824C901E26B009A00015C76E /* LoaderView.swift */; };
-		824C902126B00B760015C76E /* ReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824C902026B00B760015C76E /* ReminderView.swift */; };
 		824C902326B00B900015C76E /* AlarmsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824C902226B00B900015C76E /* AlarmsView.swift */; };
 		824C902526B00BA70015C76E /* StopWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824C902426B00BA70015C76E /* StopWatchView.swift */; };
 		824C902726B00BB60015C76E /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824C902626B00BB60015C76E /* TimerView.swift */; };
+		82FC829826B0285500FCEB20 /* RemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC829726B0285500FCEB20 /* RemindersView.swift */; };
+		82FC829A26B0287200FCEB20 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC829926B0287200FCEB20 /* Reminder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,10 +27,11 @@
 		824C901326B009020015C76E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		824C901526B009020015C76E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		824C901E26B009A00015C76E /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
-		824C902026B00B760015C76E /* ReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderView.swift; sourceTree = "<group>"; };
 		824C902226B00B900015C76E /* AlarmsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmsView.swift; sourceTree = "<group>"; };
 		824C902426B00BA70015C76E /* StopWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatchView.swift; sourceTree = "<group>"; };
 		824C902626B00BB60015C76E /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		82FC829726B0285500FCEB20 /* RemindersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersView.swift; sourceTree = "<group>"; };
+		82FC829926B0287200FCEB20 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +86,7 @@
 		824C901B26B009830015C76E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				824C902026B00B760015C76E /* ReminderView.swift */,
+				82FC829726B0285500FCEB20 /* RemindersView.swift */,
 				824C902226B00B900015C76E /* AlarmsView.swift */,
 				824C902426B00BA70015C76E /* StopWatchView.swift */,
 				824C902626B00BB60015C76E /* TimerView.swift */,
@@ -96,6 +98,7 @@
 		824C901C26B009890015C76E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				82FC829926B0287200FCEB20 /* Reminder.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -179,9 +182,10 @@
 			files = (
 				824C902726B00BB60015C76E /* TimerView.swift in Sources */,
 				824C902526B00BA70015C76E /* StopWatchView.swift in Sources */,
+				82FC829826B0285500FCEB20 /* RemindersView.swift in Sources */,
 				824C900F26B008FB0015C76E /* ContentView.swift in Sources */,
 				824C900D26B008FB0015C76E /* AlarmoApp.swift in Sources */,
-				824C902126B00B760015C76E /* ReminderView.swift in Sources */,
+				82FC829A26B0287200FCEB20 /* Reminder.swift in Sources */,
 				824C902326B00B900015C76E /* AlarmsView.swift in Sources */,
 				824C901F26B009A00015C76E /* LoaderView.swift in Sources */,
 			);

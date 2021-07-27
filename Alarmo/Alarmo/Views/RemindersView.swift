@@ -1,5 +1,5 @@
 //
-//  ReminderView.swift
+//  RemindersView.swift
 //  Alarmo
 //
 //  Created by Cédric Bahirwe on 27/07/2021.
@@ -7,30 +7,33 @@
 
 import SwiftUI
 
-
-struct Reminder: Identifiable, Hashable {
-    let id: Int
-    let date = Date()
-    static let examples:[Reminder] = [1,2,3,4,5,6,7,8,9,0,1,423,23,5,35,43,6,6,457,45,756,78,45,745].map{ Reminder(id: $0) }
-    
-}
-struct ReminderView: View {
+struct RemindersView: View {
     @State private var reminders = Reminder.examples
-        @State var editMode = EditMode.inactive
-        @State var selection = Set<Reminder>()
+    @State var editMode = EditMode.inactive
+    @State var selection = Set<Reminder>()
+    
+    @State private var fetchigMore = false
+    var paginationLoaderView: some View {
+        LoaderView()
+            .frame(maxWidth: .infinity)
+            .onAppear {
+                fetchigMore = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    let count = reminders.count
+                    let newReminders = (count...count+10).map{ Reminder(id:$0) }
+                    reminders.append(contentsOf: newReminders)
+                    fetchigMore = false
+                }
+            }
+    }
     var body: some View {
         NavigationView {
             
             List(selection: $selection) {
                 ForEach(reminders, id: \.self) { reminder in
-                    VStack(alignment: .leading) {
-                        Text(reminder.id.description)
-                            .font(.system(size: 22, weight: .medium))
-                        Text("The reminder No. \(reminder.id)")
-                            .fontWeight(.light)
-                    }
-                    .frame(height: 60)
+                    ReminderRowView(reminder)
                 }
+                paginationLoaderView
             }
             .listStyle(PlainListStyle())
             .toolbar {
@@ -49,7 +52,7 @@ struct ReminderView: View {
     private func removeItems(_ indexSet: IndexSet) {
         reminders.remove(atOffsets: indexSet)
     }
-
+    
     private var editButton: some View {
         Button(action: {
             withAnimation {
@@ -60,14 +63,14 @@ struct ReminderView: View {
             Text(editMode == .inactive ? "Edit" : "Done")
         }
     }
-
+    
     private var deleteButton: some View {
         Button(action: deleteNumbers) {
             Image(uiImage: editMode == .active ? UIImage(systemName: "trash")! : UIImage.init())
-                
+            
         }
     }
-
+    
     private func deleteNumbers() {
         withAnimation {
             for id in selection {
@@ -80,9 +83,27 @@ struct ReminderView: View {
     }
 }
 
-struct ReminderView_Previews: PreviewProvider {
+struct RemindersView_Previews: PreviewProvider {
     static var previews: some View {
-        ReminderView()
-//            .preferredColorScheme(.dark)
+        RemindersView()
     }
+}
+
+extension RemindersView {
+    struct ReminderRowView: View {
+        let reminder: Reminder
+        init(_ reminder: Reminder) {
+            self.reminder = reminder
+        }
+        var body: some View {
+            VStack(alignment: .leading) {
+                Text(reminder.id.description)
+                    .font(.system(size: 22, weight: .medium))
+                Text("The reminder No. \(reminder.id)")
+                    .fontWeight(.light)
+            }
+            .frame(height: 60)
+        }
+    }
+    
 }
