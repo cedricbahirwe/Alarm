@@ -16,6 +16,7 @@
 		824C902326B00B900015C76E /* AlarmsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824C902226B00B900015C76E /* AlarmsView.swift */; };
 		824C902526B00BA70015C76E /* StopWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824C902426B00BA70015C76E /* StopWatchView.swift */; };
 		824C902726B00BB60015C76E /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824C902626B00BB60015C76E /* TimerView.swift */; };
+		829392D726B04AB70007333D /* StopTimerManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829392D626B04AB70007333D /* StopTimerManger.swift */; };
 		82FC829826B0285500FCEB20 /* RemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC829726B0285500FCEB20 /* RemindersView.swift */; };
 		82FC829A26B0287200FCEB20 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC829926B0287200FCEB20 /* Reminder.swift */; };
 /* End PBXBuildFile section */
@@ -32,6 +33,7 @@
 		824C902226B00B900015C76E /* AlarmsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmsView.swift; sourceTree = "<group>"; };
 		824C902426B00BA70015C76E /* StopWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatchView.swift; sourceTree = "<group>"; };
 		824C902626B00BB60015C76E /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		829392D626B04AB70007333D /* StopTimerManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopTimerManger.swift; sourceTree = "<group>"; };
 		82FC829726B0285500FCEB20 /* RemindersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersView.swift; sourceTree = "<group>"; };
 		82FC829926B0287200FCEB20 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,6 +74,7 @@
 				824C901B26B009830015C76E /* Views */,
 				824C901C26B009890015C76E /* Models */,
 				824C901026B009020015C76E /* Assets.xcassets */,
+				829392D326B04A9C0007333D /* ViewModels */,
 				824C901526B009020015C76E /* Info.plist */,
 				824C901226B009020015C76E /* Preview Content */,
 			);
@@ -112,6 +115,14 @@
 				824C901E26B009A00015C76E /* LoaderView.swift */,
 			);
 			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		829392D326B04A9C0007333D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				829392D626B04AB70007333D /* StopTimerManger.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,6 +195,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				824C902726B00BB60015C76E /* TimerView.swift in Sources */,
+				829392D726B04AB70007333D /* StopTimerManger.swift in Sources */,
 				82399E7426B02A00000BFFE4 /* Extensions.swift in Sources */,
 				824C902526B00BA70015C76E /* StopWatchView.swift in Sources */,
 				82FC829826B0285500FCEB20 /* RemindersView.swift in Sources */,

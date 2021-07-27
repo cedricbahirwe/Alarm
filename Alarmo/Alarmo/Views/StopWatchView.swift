@@ -26,7 +26,7 @@ struct Lap: Identifiable {
 struct StopWatchView: View {
     @State private var laps: [Lap] = []
 
-    @StateObject private var timerData = TimerManger()
+    @StateObject private var timerData = StopTimerManger()
     
     var body: some View {
         VStack {
@@ -34,9 +34,6 @@ struct StopWatchView: View {
                 Text(timerData.mainTimerText)
                     .font(.uiFont(name: .noteworthy, size: 40))
                     .bold()
-                    .fixedSize()
-//                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
                 
                 Text(timerData.lapTimerText)
                     .font(.uiFont(name: .noteworthy, size: 20))
@@ -48,7 +45,7 @@ struct StopWatchView: View {
             .padding(.top, laps.isEmpty ? 100 : 65)
             .animation(.linear(duration: 0.3))
             
-            VStack {
+            VStack(spacing: 0) {
                 HStack {
                     Text("Lap")
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -155,57 +152,4 @@ struct StopWatchView_Previews: PreviewProvider {
         StopWatchView()
             .preferredColorScheme(.dark)
     }
-}
-
-class TimerManger: ObservableObject {
-    enum TimerState { case running, paused, initial }
-    @Published private(set) var timerState:TimerState = .initial
-    @Published private(set) var generalCounter = 0
-    @Published private(set) var mainTimerText = "00:00:00"
-    @Published private(set) var lapTimerText = "00:00:00"
-    
-    private var timer = Timer()
-    
-    @Published var lapCounter = 0
-
-    public func startStopTimer() {
-        if timerState == .running  {
-            pauseCounter()
-        } else {
-            startCounter()
-        }
-    }
-    
-    public func resetCounter() {
-        timer.invalidate()
-        timerState = .initial
-    }
-    
-    private func startCounter() {
-        timerState = .running
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in self.updateCounting()
-        })
-    }
-    
-    private func updateCounting() {
-        generalCounter += 1
-        lapCounter += 1
-        mainTimerText = getReadableTimeFormat(amount: generalCounter, type: "i")
-        lapTimerText = getReadableTimeFormat(amount: lapCounter, type: "i")
-    }
-    
-    private func pauseCounter() {
-        timer.invalidate()
-        timerState = .paused
-    }
-
-}
-extension TimerManger {
-    
-    private func getReadableTimeFormat(amount: Int, type: String) -> String {
-        let (hrs, minsec) = amount.quotientAndRemainder(dividingBy: 3600)
-        let (min, sec) = minsec.quotientAndRemainder(dividingBy: 60)
-        return type == "s" ? "\(hrs)h:\(min)m" : "\(String(format: "%02d", hrs)):\(String(format: "%02d", min)):\(String(format: "%02d", sec))"
-    }
-    
 }
