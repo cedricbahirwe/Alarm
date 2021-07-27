@@ -103,37 +103,6 @@ struct TimerView_Previews: PreviewProvider {
 }
 
 extension TimerView {
-    struct Clock: View {
-        var counter: Int
-        var countTo: Int
-        
-        var body: some View {
-            VStack {
-                Text(counterToMinutes())
-                    .font(.custom("Avenir Next", size: 60))
-                    .fontWeight(.black)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-            }
-        }
-        
-        func counterToMinutes() -> String {
-            let currentTime = countTo - counter
-            return getReadableTimeFormat(amount: currentTime, type: "i")
-        }
-    }
-    
-    
-    struct ProgressTrack: View {
-        var body: some View {
-            Circle()
-                .fill(Color.clear)
-                .overlay(
-                    Circle().stroke(Color.primary.opacity(0.2),
-                                    lineWidth: 15)
-                )
-        }
-    }
     
     struct ProgressBar: View {
         var counter: Int
@@ -176,16 +145,32 @@ extension TimerView {
         var body: some View {
             VStack{
                 ZStack{
-                    ProgressTrack()
+                    Circle()
+                        .fill(Color.clear)
+                        .overlay(
+                            Circle().stroke(Color.primary.opacity(0.2),
+                                            lineWidth: 15)
+                        )
                     ProgressBar(counter: counter, countTo: countTo)
-                    Clock(counter: counter, countTo: countTo)
-                        .padding(15) // For the border width
+                    VStack {
+                        Text(counterToSeconds())
+                            .font(.custom("Avenir Next", size: 60))
+                            .fontWeight(.black)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                    }
+                    .padding(15) // For the border width
                 }
             }.onReceive(timer) { time in
                 if (self.counter < self.countTo) {
                     self.counter += 1
                 }
             }
+        }
+        
+        func counterToSeconds() -> String {
+            let currentTime = countTo - counter
+            return getReadableTimeFormat(amount: currentTime, type: "i")
         }
     }
     
